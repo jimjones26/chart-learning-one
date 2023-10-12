@@ -3,6 +3,7 @@
 	import { max, scaleLinear } from 'd3';
 	import AxisX from '$lib/components/AxisX.svelte';
 	import AxisY from '$lib/components/AxisY.svelte';
+	import Tooltip from '$lib/components/Tooltip.svelte';
 	console.log(data);
 
 	let width = 400;
@@ -16,9 +17,18 @@
 	const yScale = scaleLinear()
 		.domain([0, max(data, (d: any) => d.hours)])
 		.range([height - margin.top - margin.bottom, 0]);
+
+	let hoveredData: any;
+	$: console.log(hoveredData);
 </script>
 
-<div class="chart-container" bind:clientWidth={width}>
+<div
+	class="chart-container"
+	bind:clientWidth={width}
+	on:mouseleave={() => {
+		hoveredData = null;
+	}}
+>
 	<svg {height} {width}>
 		<AxisX {height} {xScale} {margin} />
 		<AxisY {width} {yScale} {margin} />
@@ -30,8 +40,14 @@
 					r="10"
 					fill="purple"
 					stroke="black"
+					on:mouseover={() => {
+						hoveredData = student;
+					}}
 				/>
 			{/each}
 		</g>
 	</svg>
+	{#if hoveredData}
+		<Tooltip {hoveredData} {xScale} {yScale} />
+	{/if}
 </div>
