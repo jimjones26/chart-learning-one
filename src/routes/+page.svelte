@@ -2,6 +2,7 @@
 	import data from '$lib/data/data';
 	import { max, scaleLinear } from 'd3';
 	import AxisX from '$lib/components/AxisX.svelte';
+	import AxisY from '$lib/components/AxisY.svelte';
 	console.log(data);
 
 	let width = 400;
@@ -15,6 +16,7 @@
 
 <svg {height} {width}>
 	<AxisX {height} {xScale} />
+	<AxisY {width} {yScale} />
 	{#each data as student}
 		<circle
 			cx={xScale(student.grade)}
