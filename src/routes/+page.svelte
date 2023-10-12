@@ -1,6 +1,7 @@
 <script lang="ts">
 	import data from '$lib/data/data';
 	import { max, scaleLinear } from 'd3';
+	import AxisX from '$lib/components/AxisX.svelte';
 	console.log(data);
 
 	let width = 400;
@@ -13,6 +14,7 @@
 </script>
 
 <svg {height} {width}>
+	<AxisX {height} {xScale} />
 	{#each data as student}
 		<circle
 			cx={xScale(student.grade)}
