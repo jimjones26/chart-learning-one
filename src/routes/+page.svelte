@@ -8,22 +8,28 @@
 	let width = 400;
 	let height = 400;
 
-	const xScale = scaleLinear().domain([0, 100]).range([0, width]);
+	const margin = { top: 20, right: 40, left: 0, bottom: 20 };
+
+	const xScale = scaleLinear()
+		.domain([0, 100])
+		.range([0, width - margin.left - margin.right]);
 	const yScale = scaleLinear()
 		.domain([0, max(data, (d: any) => d.hours)])
-		.range([height, 0]);
+		.range([height - margin.top - margin.bottom, 0]);
 </script>
 
 <svg {height} {width}>
-	<AxisX {height} {xScale} />
-	<AxisY {width} {yScale} />
-	{#each data as student}
-		<circle
-			cx={xScale(student.grade)}
-			cy={yScale(student.hours)}
-			r="10"
-			fill="purple"
-			stroke="black"
-		/>
-	{/each}
+	<AxisX {height} {xScale} {margin} />
+	<AxisY {width} {yScale} {margin} />
+	<g class="circles" transform="translate({margin.left} {margin.top})">
+		{#each data as student}
+			<circle
+				cx={xScale(student.grade)}
+				cy={yScale(student.hours)}
+				r="10"
+				fill="purple"
+				stroke="black"
+			/>
+		{/each}
+	</g>
 </svg>
